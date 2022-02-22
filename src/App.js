@@ -17,6 +17,20 @@ class App extends Component {
     const newNames = this.state.names.filter(filterCallback);
     this.setState({ names: newNames });
   };
+
+  componentDidMount() {
+    const savedNamesString = localStorage.getItem("savedNames ");
+    if (savedNamesString) {
+      const savedNames = JSON.parse(savedNamesString);
+      this.setState(savedNames);
+    }
+  }
+
+  componentDidUpdate() {
+    const savedNamesString = JSON.stringify(this.state.names);
+    localStorage.setItem("savedNames", savedNamesString);
+  }
+  
   render() {
     return (
       <div className="App">
