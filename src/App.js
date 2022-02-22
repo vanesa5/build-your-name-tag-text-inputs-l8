@@ -4,8 +4,22 @@ import UserInput from "./UserInput.js";
 
 class App extends Component {
   state = {
-    names: ["Erin", "Ann", "Nichole", "Sharon", "Maryn"]
+    names: []
   };
+
+  componentDidMount() {
+    const savedNamesString = localStorage.getItem("savedNames ");
+    if (savedNamesString) {
+      const savedNames = JSON.parse(savedNamesString);
+      this.setState({ names: savedNames });
+    }
+  }
+
+  componentDidUpdate() {
+    const savedNamesString = JSON.stringify(this.state.names);
+    localStorage.setItem("savedNames", savedNamesString);
+  }
+
   addName = (name) => {
     const newName = [name, ...this.state.names];
     this.setState({ names: newName });
@@ -17,20 +31,6 @@ class App extends Component {
     const newNames = this.state.names.filter(filterCallback);
     this.setState({ names: newNames });
   };
-
-  componentDidMount() {
-    const savedNamesString = localStorage.getItem("savedNames ");
-    if (savedNamesString) {
-      const savedNames = JSON.parse(savedNamesString);
-      this.setState(savedNames);
-    }
-  }
-
-  componentDidUpdate() {
-    const savedNamesString = JSON.stringify(this.state.names);
-    localStorage.setItem("savedNames", savedNamesString);
-  }
-  
   render() {
     return (
       <div className="App">
